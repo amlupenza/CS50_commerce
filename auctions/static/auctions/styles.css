@@ -1,0 +1,60 @@
+body {
+    padding: 10px;
+}
+.logo{
+    display: inline-block;
+    position: relative;
+    
+}
+strong{
+    color: goldenrod;
+}
+.logo span{
+    color:goldenrod;
+    transform: rotate(-20deg);
+    
+}
+.is_logedin{
+    display: inline-block;
+    position: absolute;
+    left: 1200px;
+    top: 75px;
+}
+.nav-pills{
+    transition: 0.5s;
+}
+.nav-pills a{
+    transition: 0.5s;
+    color: rgb(99, 74, 10);
+}
+.nav-pills a:hover{
+    color: black;
+}
+.nav-pills:hover{
+    background-color: goldenrod;
+    border-radius: 4px;
+    
+}
+
+.listingForm form{
+    width: 80%;
+    padding: 30px;
+    margin: auto;
+    background-color: rgb(70, 235, 149);
+
+}
+.btn{
+    background-color: black;
+    color:rgb(70, 235, 149) ;
+}
+.btn:hover{
+    color:white;
+}
+.listing_img{
+    width: 300px;
+    height:300px;
+}
+.listing_descrip{
+    border: solid black 1px;
+    margin-left: 2px;
+}

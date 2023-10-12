@@ -1,0 +1,44 @@
+{% extends "auctions/layout.html" %}
+{% block body %}
+    <div class="container">
+    {% if user.is_authenticated %}
+        {% if listing.watchlist not in watchlist %}
+            <form action="{% url 'to_watch' listing.id %}" method="post">
+                {% csrf_token %}
+                <button>Add</button>
+            </form>
+        {% else %}
+            <form action="{% url 'from_watch' listing.id %}" method="post">
+                {% csrf_token %}
+                <button>Remove</button>
+            </form>
+        {% endif %}
+        <div class="row">
+            <div class="col" listing_info>
+                <h1>{{listing.title}}</h1>
+                <img src="{{listing.image}}" alt="image" class="listing_img">
+                <h2>Seller: {{listing.seller}}</h2>
+                <h4>Starting price: {{listing.starting_bid}}</h4>
+            </div>
+            <div class="col listing_descrip">
+                <h4>Description:</h4>
+                <p>{{listing.description}}</p>
+                <h4>Posted in: {{listing.date}}</h4>
+                {% if listing.is_active == True %}
+                <span>Active</span>
+                {% else %}
+                <span>Sold</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="comment">
+            {% for comment in comments %}
+            <h4> {{comment.sender}}  </h5>
+            <p> {{comment}}  </p>
+            <h6> {{comment.date}} </h6>
+            {% endfor %}
+        </div>
+        
+    {% endif %}
+    </div>
+{% endblock %}

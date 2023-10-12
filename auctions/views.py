@@ -91,8 +91,7 @@ def listing(request):
 def listing_page(request,listing_id):
     user = request.user
     listing = Listing.objects.get(pk=listing_id)
-    watchlist = user.watchlistings
-    comments = Comment.objects.all()
+    watchlist = user.watchlistings.all()
     return render(request, "auctions/listing.html", {
         "listing": listing, 
         "watchlist": watchlist

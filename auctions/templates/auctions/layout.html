@@ -16,28 +16,28 @@
                 Not signed in.
             {% endif %}
         </div>
-        <ul class="nav">
-            <li class="nav-item nav-pills">
+        <ul class="nav nav-pills">
+            <li class="nav-item active">
                 <a class="nav-link" href="{% url 'index' %}">Active Listings</a>
             </li>
-            <li class="nav-item nav-pills">
+            <li class="nav-item">
                 <a class="nav-link" href="{% url 'closed' %}">Closed Listings</a>
             </li>
             {% if user.is_authenticated %}
-                <li class="nav-item nav-pills">
+                <li class="nav-item">
                     <a href="{% url 'listing' %}" class="nav-link">Create Listing</a>
                 </li>
-                <li class="nav-item nav-pills">
+                <li class="nav-item">
                     <a href="{% url 'to_watch' user.id %}" class="nav-link">Watch List</a>
                 </li>
-                <li class="nav-item nav-pills">
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
                 </li>
             {% else %}
-                <li class="nav-item nav-pills">
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'login' %}">Log In</a>
                 </li>
-                <li class="nav-item nav-pills">
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'register' %}">Register</a>
                 </li>
             {% endif %}
@@ -45,5 +45,7 @@
         <hr>
         {% block body %}
         {% endblock %}
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
     </body>
 </html>

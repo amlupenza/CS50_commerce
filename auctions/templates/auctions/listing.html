@@ -1,44 +1,87 @@
 {% extends "auctions/layout.html" %}
 {% block body %}
-    <div class="container">
+    <div class="container lisitng_page">
     {% if user.is_authenticated %}
-        {% if listing not in watchlist %}
-            <form action="{% url 'to_watch' listing.id %}" method="post">
-                {% csrf_token %}
-                <button type="submit">Add</button>
-            </form>
-        {% else %}
-            <form action="{% url 'from_watch' listing.id %}" method="post">
-                {% csrf_token %}
-                <button type="submit">Remove</button>
-            </form>
+  
+    {% if request.user == listing.buyer and listing.is_active == False %}
+    You won the bid, congratulations!
+    {% endif %}
+        <h4> {{message}}  </h4>
+        {% if request.user == listing.seller and listing.is_active == True %}
+        <form action="{% url 'close' listing.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn">Close Auction</button>
+        </form>
+        {% endif %}
+        {% if listing not in watchlists and listing.is_active == True %}
+        <form action="{% url 'to_watch' listing.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn">Add</button>
+        </form>
+        {% elif listing in watchlists and listing.is_active == True %}
+        <form action="{% url 'from_watch' listing.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Remove</button>
+        </form>
         {% endif %}
         <div class="row">
             <div class="col" listing_info>
                 <h1>{{listing.title}}</h1>
                 <img src="{{listing.image}}" alt="image" class="listing_img">
-                <h2>Seller: {{listing.seller}}</h2>
-                <h4>Starting price: {{listing.starting_bid}}</h4>
+               
             </div>
             <div class="col listing_descrip">
                 <h4>Description:</h4>
                 <p>{{listing.description}}</p>
-                <h4>Posted in: {{listing.date}}</h4>
-                {% if listing.is_active == True %}
-                <span>Active</span>
+                <h4>Seller: {{listing.seller}}</h4>
+                <h5>Starting price: {{listing.starting_bid}}</h5>
+                <h5>Posted in: {{listing.date}}</h5>
+                {%if listing.is_active == True %}
+                    {% if currentbid %}
+                        <h5>Current bid: {{currentbid}}</h5>
+                    {% else %}
+                        <h5>No bid placed</h5>
+                    {% endif %}
+                    <span>Active</span>
                 {% else %}
-                <span>Sold</span>
+                    <span>Sold</span>
+                {% endif %}
+
+            </div>
+            <div class="container">
+                <h4>Comments:</h4>
+                <div class="comments">
+                   
+                    {% if comments %}
+                    {% for comment in comments %}
+                    <div class="comment">
+                        <h6>{{comment.sender}}</h6>
+                        <p>{{comment.comment|linebreaksbr}}</p>
+                        <span>{{comment.date}}</span>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    No Comments
+                    {% endif %}
+                </div>
+                <div class="commentform">
+                    <form action="{% url 'comment' listing.id %}" method="post">
+                        {% csrf_token %}
+                        {{commentform}}
+                        <button type="submit" class="btn">Send</button>
+                    </form>
+                </div>
+                {% if request.user != listing.seller and listing.is_active == True %}
+                <div class="bid">
+                    <form action="{% url 'make_bid' listing.id %}" method="post">
+                        {% csrf_token %}
+                        {{bid.as_p}}
+                        <button type="submit" class="btn btn-primary">Make bid</button>
+                    </form>
+                </div>
+                {% endif %}
                 {% endif %}
             </div>
-        </div>
-        <div class="comment">
-            {% for comment in comments %}
-            <h4> {{comment.sender}}  </h5>
-            <p> {{comment}}  </p>
-            <h6> {{comment.date}} </h6>
-            {% endfor %}
-        </div>
-        
-    {% endif %}
+        </div> 
     </div>
 {% endblock %}

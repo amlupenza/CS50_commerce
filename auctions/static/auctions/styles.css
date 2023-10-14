@@ -27,15 +27,16 @@ strong{
     transition: 0.5s;
     color: rgb(99, 74, 10);
 }
-.nav-pills a:hover{
+.nav-item a:hover{
     color: black;
 }
-.nav-pills:hover{
+.nav-item:hover{
     background-color: goldenrod;
     border-radius: 4px;
     
 }
 
+/*................... Listing form styling.............*/
 .listingForm form{
     width: 80%;
     padding: 30px;
@@ -45,11 +46,15 @@ strong{
 }
 .btn{
     background-color: black;
-    color:rgb(70, 235, 149) ;
+    color:goldenrod ;
+}
+.commentform, .bid{
+    display: inline-block;
 }
 .btn:hover{
     color:white;
 }
+/*................ listing page styling...............*/
 .listing_img{
     width: 300px;
     height:300px;
@@ -57,4 +62,93 @@ strong{
 .listing_descrip{
     border: solid black 1px;
     margin-left: 2px;
+}
+.listing_descrip span{
+    background-color: goldenrod;
+    color: black;
+    padding: 4px;
+}
+.lisitng_page form{
+    margin: 8px;
+    display: inline-block;
+
+}
+/*............ styling comments.........*/
+.comments{
+    margin: 10px;
+    width: 70%;
+    height: 30%;
+    overflow:auto;
+    scroll-behavior: smooth;
+    padding: 10px;
+    
+}
+
+.comments::-webkit-scrollbar{
+    display: none;
+}
+.comment{
+    background-color: rgb(220, 218, 212);
+    border-radius: 4px;
+    padding: 4px;
+    margin: 4px auto;
+    width: 80%;
+}
+.comment span{
+    position: relative;
+    left: 430px;
+}
+.comment h6{
+    color: goldenrod;
+}
+.comment p{
+    line-height: normal;
+    line-break:loose;
+}
+.listing_descrip{
+    padding: 20px !important;
+}
+.listing_descrip p{
+    margin-bottom: 20px;
+    border-bottom: solid 1px;
+    padding-bottom: 80px;
+}
+.commentform button{
+    margin: 10px;
+}
+.commentform{
+    position: relative;
+    width: 40%;
+    left: 2px;
+}
+.commentform textarea{
+    height: 70px;
+    border: solid black 1px;
+    padding: 2px;
+}
+.bid input{
+    border: solid black 1px;
+}
+
+/*...............Index page styling..............*/
+.index_active form{
+    width: 30%;
+}
+.index_active select{
+    display: inline-block;
+    margin: 5px;
+    outline-color: goldenrod;
+    
+}
+
+.index_active option{
+    
+    display: inline-block;
+}
+.index_active button{
+    display: inline-block;
+}
+/*............. style input form-control...........*/
+.form-control:focus{
+    outline: goldenrod;
 }

@@ -41,7 +41,7 @@ strong{
     width: 80%;
     padding: 30px;
     margin: auto;
-    background-color: rgb(70, 235, 149);
+    background-color: goldenrod;
 
 }
 .btn{
@@ -102,7 +102,7 @@ strong{
     color: goldenrod;
 }
 .comment p{
-    line-height: normal;
+    line-height:normal;
     line-break:loose;
 }
 .listing_descrip{
@@ -151,4 +151,13 @@ strong{
 /*............. style input form-control...........*/
 .form-control:focus{
     outline: goldenrod;
+}
+/*......... style alert messages............*/
+.alert-success{
+    background-color: goldenrod;
+    color: black;
+}
+.alert-error{
+    background-color: red;
+    columns: black;
 }

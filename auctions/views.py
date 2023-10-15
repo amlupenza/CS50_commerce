@@ -93,16 +93,15 @@ def listing(request):
             listing.date = today
             listing.is_active = True
             listing.save()
+            messages.success(request, "Your listing has been added successfully")
+            return HttpResponseRedirect(reverse("index"))
         else:
+            messages.error(request, "Sorry, your Form is not valid, check it and submit again")
             return render(request, "auctions/listingForm.html", {
-                "form": f,
-                "message": "Sorry, your Form is not valid, check it and submit again"
+                "form": f
             })
-        # instantiate listing with default values
-        listing = Listing(seller=user, date=today, is_active=True)
-        # add fields to the listing
-       
-        # save to the model
+
+    # if method is get
     return render(request, 'auctions/listingForm.html', {
         "form": ListingForm
     })
@@ -111,13 +110,18 @@ def listing_page(request,listing_id):
     user = request.user
     listing = Listing.objects.get(pk=listing_id)
     bids = Bid.objects.filter(listing=listing_id)
+    max_bid = 0
+    for bid in bids:
+        if bid.bid > max_bid:
+            max_bid = bid.bid
     watchlists = user.watchlistings.all()
     return render(request, "auctions/listing.html", {
         "listing": listing, 
         "watchlists": watchlists,
         "bid": BidForm,
         "comments": Comment.objects.filter(listing=listing),
-        "commentform": CommentForm
+        "commentform": CommentForm,
+        "currentbid": max_bid
     })
 
 def closed_listing(request):
@@ -151,10 +155,8 @@ def make_bid(request, listing_id):
         f = BidForm(request.POST)
         # check if form is valid
         if not f.is_valid():
-            return render(request, "auctions/listing.html", {
-                "bid": f,
-                "message": "Sorry, your form is not valid"
-            })
+            messages.error(request, "Sorry, your form is not valid")
+            return HttpResponseRedirect(reverse("listing_page"))
         # get user's input
         bid_price = float(f.cleaned_data["bid"])
         # get user object
@@ -169,23 +171,16 @@ def make_bid(request, listing_id):
         if not bids:
             # check if bid_price is < than listing starting price
             if bid_price < start_price:
-                return render(request, "auctions/listing.html", {
-                    "bid": f, 
-                    "message": "Bid must be larger than starting price",
-                    "listing":listing
-                })
+                messages.error(request, "Sorry, bid must be larger than starting price")
+                return HttpResponseRedirect(reverse("listing_page", args=(listing_id, )))
             # otherwise if bid_price is > start_price
             else:
                 # create a bid object
                 bid = Bid(bider=user, listing=listing, bid=bid_price)
                 # save bid to the database
                 bid.save()
-                return render(request, "auctions/listing.html", {
-                    "bid":f,
-                    "listing": listing,
-                    "message": "Your bid has been placed successfully",
-                    "currentbid": bid_price
-                })
+                messages.success(request, "Your bid has been placed successfully")
+                return HttpResponseRedirect(reverse("listing_page", args=(listing_id, )))
         # check if there is a bid for this listing
         else:
         
@@ -198,25 +193,15 @@ def make_bid(request, listing_id):
                     # update maximum bid value
                     max_bid = bid.bid
             
-
             # check if maximum bid is greater than user's bid       
-            if max_bid > bid_price: 
-                    return render(request, "auctions/listing.html", {
-                        "bid":f, 
-                        "message": "Sorry, your bid must be greater than current bid",
-                        "listing":listing,
-                        "currentbid": max_bid
-                    })
+            if max_bid > bid_price:
+                    messages.error(request, "Sorry, your bid must be greater than current bid" )
+                    return HttpResponseRedirect(reverse("listing_page", args=(listing_id, )))
             # set default values for current bid object
             bid = Bid(bider=user, listing=listing, bid=bid_price)
             bid.save()
-            return render(request, "auctions/listing.html", {
-                "bid":f,
-                "listing": listing,
-                "message": "Your bid has been placed successfully",
-                "currentbid": max_bid
-                
-            })
+            messages.success(request, "Your bid has been placed successfully")
+            return HttpResponseRedirect(reverse("listing_page", args=(listing_id, )))
         
 
 # close bid
@@ -240,6 +225,7 @@ def close_bid(request, listing_id):
         listing.buyer = buyer
         listing.buy_price = max_bid
         listing.save()
+        messages.success(request, "Your auction has been closed succefully")
         return HttpResponseRedirect(reverse("closed"))   
     return HttpResponseRedirect(reverse("index"))
 
@@ -248,6 +234,7 @@ def comment(request, listing_id):
     if request.method == 'POST':
         f = CommentForm(request.POST)
         if not f.is_valid():
+            messages.error(request, "Sorry, your form is not valid, correct it and submit again")
             return render(request, "auctions/listing.html", {
                 "commentform": f
             })

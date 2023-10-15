@@ -2,6 +2,13 @@
 {% block body %}
     <div class="container lisitng_page">
     {% if user.is_authenticated %}
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% endif %}
   
     {% if request.user == listing.buyer and listing.is_active == False %}
     You won the bid, congratulations!
@@ -16,19 +23,22 @@
         {% if listing not in watchlists and listing.is_active == True %}
         <form action="{% url 'to_watch' listing.id %}" method="post">
             {% csrf_token %}
-            <button type="submit" class="btn">Add</button>
+            <button type="submit" class="btn">Add to watch</button>
         </form>
         {% elif listing in watchlists and listing.is_active == True %}
         <form action="{% url 'from_watch' listing.id %}" method="post">
             {% csrf_token %}
-            <button type="submit">Remove</button>
+            <button type="submit">Remove form watch</button>
         </form>
         {% endif %}
         <div class="row">
             <div class="col" listing_info>
                 <h1>{{listing.title}}</h1>
+                {% if listing.image %}
                 <img src="{{listing.image}}" alt="image" class="listing_img">
-               
+                {% else %}
+                <img src="https://img.freepik.com/free-vector/flat-design-no-photo-sign-design_23-2149288658.jpg?size=338&ext=jpg&ga=GA1.1.1413502914.1697241600&semt=ais" alt="image" class="listing_img">
+                {% endif %}
             </div>
             <div class="col listing_descrip">
                 <h4>Description:</h4>

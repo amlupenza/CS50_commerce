@@ -2,13 +2,7 @@
 {% block body %}
     <div class="container lisitng_page">
     {% if user.is_authenticated %}
-<<<<<<< HEAD
-  
-    {% if request.user == listing.buyer and listing.is_active == False %}
-    You won the bid, congratulations!
-    {% endif %}
-        <h4> {{message}}  </h4>
-=======
+
     {% if messages %}
     {% for message in messages %}
         <div class="alert alert-{{ message.tags }}">
@@ -16,7 +10,6 @@
         </div>
     {% endfor %}
     {% endif %}
->>>>>>> style-nav
         {% if request.user == listing.seller and listing.is_active == True %}
         <form action="{% url 'close' listing.id %}" method="post">
             {% csrf_token %}
@@ -26,33 +19,21 @@
         {% if listing not in watchlists and listing.is_active == True %}
         <form action="{% url 'to_watch' listing.id %}" method="post">
             {% csrf_token %}
-<<<<<<< HEAD
-            <button type="submit" class="btn">Add</button>
-=======
             <button type="submit" class="btn">Watch</button>
->>>>>>> style-nav
         </form>
         {% elif listing in watchlists %}
         <form action="{% url 'from_watch' listing.id %}" method="post">
             {% csrf_token %}
-<<<<<<< HEAD
-            <button type="submit">Remove</button>
-=======
             <button type="submit" class="btn">Unwatch</button>
->>>>>>> style-nav
         </form>
         {% endif %}
         <div class="row">
             <div class="col" listing_info>
                 <h1>{{listing.title}}</h1>
                 <img src="{{listing.image}}" alt="image" class="listing_img">
-<<<<<<< HEAD
-               
-=======
                 {% else %}
                 <img src="https://cdn.vectorstock.com/i/preview-1x/50/20/no-photography-sign-image-vector-23665020.jpg" alt="image" class="listing_img">
                 {% endif %}
->>>>>>> style-nav
             </div>
             <div class="col listing_descrip">
                 <h4>Description:</h4>

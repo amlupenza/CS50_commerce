@@ -21,26 +21,17 @@
         {% elif listing in watchlists and listing.is_active == True %}
         <form action="{% url 'from_watch' listing.id %}" method="post">
             {% csrf_token %}
-<<<<<<< HEAD
-            <button type="submit">Remove</button>
-=======
             <button type="submit">Remove form watch</button>
->>>>>>> parent of dc90984 (last commit)
         </form>
         {% endif %}
         <div class="row">
             <div class="col" listing_info>
                 <h1>{{listing.title}}</h1>
-<<<<<<< HEAD
-                <img src="{{listing.image}}" alt="image" class="listing_img">
-               
-=======
                 {% if listing.image %}
                 <img src="{{listing.image}}" alt="image" class="listing_img">
                 {% else %}
                 <img src="https://img.freepik.com/free-vector/flat-design-no-photo-sign-design_23-2149288658.jpg?size=338&ext=jpg&ga=GA1.1.1413502914.1697241600&semt=ais" alt="image" class="listing_img">
                 {% endif %}
->>>>>>> parent of dc90984 (last commit)
             </div>
             <div class="col listing_descrip">
                 <h4>Description:</h4>

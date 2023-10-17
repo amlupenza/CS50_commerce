@@ -41,11 +41,8 @@ strong{
     width: 80%;
     padding: 30px;
     margin: auto;
-<<<<<<< HEAD
-    background-color: rgb(70, 235, 149);
-=======
     background-color: goldenrod;
->>>>>>> parent of dc90984 (last commit)
+
 
 }
 .btn{
@@ -106,11 +103,9 @@ strong{
     color: goldenrod;
 }
 .comment p{
-<<<<<<< HEAD
-    line-height: normal;
-=======
+
     line-height:normal;
->>>>>>> parent of dc90984 (last commit)
+
     line-break:loose;
 }
 .listing_descrip{
@@ -159,8 +154,7 @@ strong{
 /*............. style input form-control...........*/
 .form-control:focus{
     outline: goldenrod;
-<<<<<<< HEAD
-=======
+
 }
 /*......... style alert messages............*/
 .alert-success{
@@ -170,5 +164,4 @@ strong{
 .alert-error{
     background-color: red;
     columns: black;
->>>>>>> parent of dc90984 (last commit)
 }

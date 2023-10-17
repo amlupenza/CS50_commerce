@@ -43,7 +43,6 @@ strong{
     margin: auto;
     background-color: goldenrod;
 
-
 }
 .btn{
     background-color: black;
@@ -103,9 +102,7 @@ strong{
     color: goldenrod;
 }
 .comment p{
-
     line-height:normal;
-
     line-break:loose;
 }
 .listing_descrip{
@@ -154,7 +151,6 @@ strong{
 /*............. style input form-control...........*/
 .form-control:focus{
     outline: goldenrod;
-
 }
 /*......... style alert messages............*/
 .alert-success{

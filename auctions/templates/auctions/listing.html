@@ -30,6 +30,7 @@
         <div class="row">
             <div class="col" listing_info>
                 <h1>{{listing.title}}</h1>
+                {% if listing.image %}
                 <img src="{{listing.image}}" alt="image" class="listing_img">
                 {% else %}
                 <img src="https://cdn.vectorstock.com/i/preview-1x/50/20/no-photography-sign-image-vector-23665020.jpg" alt="image" class="listing_img">
@@ -67,7 +68,6 @@
             <div class="container">
                 <h4>Comments:</h4>
                 <div class="comments">
-                   
                     {% if comments %}
                         {% for comment in comments %}
                         <div class="comment">

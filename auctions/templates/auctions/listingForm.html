@@ -5,11 +5,7 @@
     <form action="{% url 'listing' %}" method="post">
         {% csrf_token %}
         <h1>Create Listing</h1>
-<<<<<<< HEAD
-        {{form.as_p}}
-=======
         {{form}}
->>>>>>> style-nav
         <button class="btn">Save</button>
     </form>
 </div>

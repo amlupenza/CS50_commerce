@@ -1,7 +1,14 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-
+{% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+{% endif %}
+<div class="container login">
     <h2>Login</h2>
 
     {% if message %}
@@ -20,5 +27,5 @@
     </form>
 
     Don't have an account? <a href="{% url 'register' %}">Register here.</a>
-
+</div>
 {% endblock %}

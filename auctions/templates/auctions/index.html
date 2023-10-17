@@ -1,6 +1,13 @@
 {% extends "auctions/layout.html" %}
 {% block body %}
     <div class="container index_active">
+        {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% endif %}
         <div>
             <form action="{% url 'index' %}" method="post">
                 {% csrf_token %}
@@ -17,15 +24,25 @@
         {% if not listings %}
          No active listing
         {% endif %}
+    <div class="container-fluid">
         <div class="row">
-        {% for listing in listings %}
-                <div class="listing col">
-                <a href="{% url 'listing_page' listing.id %}"><h4>Title: {{listing.title}}</h4></a>
-                <img src= {{listing.image}} alt="image" class="listing_img">
-                <p>Description: {{listing.description}}</p>
+            {% for listing in listings %}
+            <div class="card col-sm-2" style="width:400px">
+                {% if listing.image != None %}
+                <img class="card-img-top" src="{{listing.image}}" alt="Card image">
+                {% else %}
+                <img class="card-img-top" src="https://upload.wikimedia.org/wikipedia/en/thumb/8/85/SVG_Image.svg/480px-SVG_Image.svg.png" alt="Card image">
+                {% endif %}
+                <div class="card-body">
+                <h4 class="card-title">{{listing.title}}</h4>
+                <p class="card-text"> {{listing.description}} </p>
                 <h4>Starting Price: {{listing.starting_bid}}$ </h4>
                 </div>
-        {% endfor %}
+                <a href="{% url 'listing_page' listing.id %}"><h4>More Details</h4></a>
+            </div>
+            {% endfor %}
         </div>
+    </div>
+        
     </div>
 {% endblock %}

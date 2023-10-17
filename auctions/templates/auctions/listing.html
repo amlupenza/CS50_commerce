@@ -10,9 +10,7 @@
     {% endfor %}
     {% endif %}
   
-    {% if request.user == listing.buyer and listing.is_active == False %}
-    You won the bid, congratulations!
-    {% endif %}
+    
         <h4> {{message}}  </h4>
         {% if request.user == listing.seller and listing.is_active == True %}
         <form action="{% url 'close' listing.id %}" method="post">
@@ -28,35 +26,37 @@
         {% elif listing in watchlists and listing.is_active == True %}
         <form action="{% url 'from_watch' listing.id %}" method="post">
             {% csrf_token %}
-            <button type="submit">Remove form watch</button>
+            <button type="submit" class="btn">Remove form watch</button>
         </form>
         {% endif %}
         <div class="row">
             <div class="col" listing_info>
                 <h1>{{listing.title}}</h1>
-                {% if listing.image %}
-                <img src="{{listing.image}}" alt="image" class="listing_img">
+                {% if listing.image != None %}
+                <img class="card-img-top" src="{{listing.image}}" alt="Card image">
                 {% else %}
-                <img src="https://img.freepik.com/free-vector/flat-design-no-photo-sign-design_23-2149288658.jpg?size=338&ext=jpg&ga=GA1.1.1413502914.1697241600&semt=ais" alt="image" class="listing_img">
+                <img class="card-img-top" src="https://upload.wikimedia.org/wikipedia/en/thumb/8/85/SVG_Image.svg/480px-SVG_Image.svg.png" alt="Card image">
                 {% endif %}
             </div>
             <div class="col listing_descrip">
                 <h4>Description:</h4>
                 <p>{{listing.description}}</p>
                 <h4>Seller: {{listing.seller}}</h4>
-                <h5>Starting price: {{listing.starting_bid}}</h5>
+                <h5>Starting price: {{listing.starting_bid}}$</h5>
                 <h5>Posted in: {{listing.date}}</h5>
                 {%if listing.is_active == True %}
                     {% if currentbid %}
-                        <h5>Current bid: {{currentbid}}</h5>
+                        <h5>Current bid: {{currentbid}}$</h5>
                     {% else %}
                         <h5>No bid placed</h5>
                     {% endif %}
                     <span>Active</span>
                 {% else %}
-                    <span>Sold</span>
+                    <span>Closed</span>
                 {% endif %}
-
+                {% if request.user == listing.buyer and listing.is_active == False %}
+                <h6>You won the bid, congratulations!</h6>
+                {% endif %}
             </div>
             <div class="container">
                 <h4>Comments:</h4>

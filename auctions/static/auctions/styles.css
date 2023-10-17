@@ -4,6 +4,8 @@ body {
 .logo{
     display: inline-block;
     position: relative;
+    margin: 10px;
+    font-size: 50px;
     
 }
 strong{
@@ -15,18 +17,18 @@ strong{
     
 }
 .is_logedin{
-    display: inline-block;
-    position: absolute;
-    left: 1200px;
-    top: 75px;
+    
+    left: 1900px;
+    font-size: 20px;
 }
-.nav-pills{
-    transition: 0.5s;
+.nav-item{
+    margin: 4px;
 }
-.nav-pills a{
-    transition: 0.5s;
-    color: rgb(99, 74, 10);
+.nav-link{
+    color: black;
+    font-size: 20px;
 }
+
 .nav-item a:hover{
     color: black;
 }
@@ -35,24 +37,33 @@ strong{
     border-radius: 4px;
     
 }
+.active{
+    background-color: goldenrod;
+    border-radius: 4px;
+}
+.navbar-toggler-icon{
+    border: solid 1px goldenrod !important;
+}
 
 /*................... Listing form styling.............*/
 .listingForm form{
     width: 80%;
     padding: 30px;
     margin: auto;
-    background-color: goldenrod;
-
+    background-color: white;
+    box-shadow: 2px 2px 10px black;
 }
+
 .btn{
-    background-color: black;
+    background-color: black !important;
     color:goldenrod ;
 }
 .commentform, .bid{
     display: inline-block;
 }
 .btn:hover{
-    color:white;
+    color:black;
+    background-color: goldenrod !important;
 }
 /*................ listing page styling...............*/
 .listing_img{
@@ -60,8 +71,9 @@ strong{
     height:300px;
 }
 .listing_descrip{
-    border: solid black 1px;
+    
     margin-left: 2px;
+    box-shadow: 10px 20px 30px black;
 }
 .listing_descrip span{
     background-color: goldenrod;
@@ -72,6 +84,13 @@ strong{
     margin: 8px;
     display: inline-block;
 
+}
+.listing_descrip h6{
+    margin-top: 20px;
+    text-align: center;
+    padding: 8px;
+    background-color: green;
+    color: rgb(245, 192, 58);
 }
 /*............ styling comments.........*/
 .comments{
@@ -96,13 +115,13 @@ strong{
 }
 .comment span{
     position: relative;
-    left: 430px;
+    left: 600px;
 }
 .comment h6{
     color: goldenrod;
 }
 .comment p{
-    line-height:normal;
+    line-height: 0.8;
     line-break:loose;
 }
 .listing_descrip{
@@ -135,12 +154,36 @@ strong{
     width: 30%;
 }
 .index_active select{
-    display: inline-block;
+    display: inline-block !important;
     margin: 5px;
-    outline-color: goldenrod;
-    
+    outline-color: goldenrod !important;
 }
 
+.card{
+    box-shadow: 4px 4px 10px black;
+    margin: 10px;
+    width: 20%;
+}
+.card img{
+    height: 180px;
+    width:180px;
+    margin: auto;
+    margin-top: 4px;
+}
+.card p{
+    line-height: 1.6;
+}
+.card div{
+    width:80%;
+    font-size: 14px;
+}
+
+.card a{
+    text-align: center;
+    text-decoration: none;
+    background-color: goldenrod;
+    color: black;
+}
 .index_active option{
     
     display: inline-block;
@@ -153,11 +196,32 @@ strong{
     outline: goldenrod;
 }
 /*......... style alert messages............*/
-.alert-success{
+.alert-success, .alert-info{
     background-color: goldenrod;
     color: black;
 }
 .alert-error{
     background-color: red;
     columns: black;
+}
+/*.......... style login........... */
+.form-group{
+    margin: 10px;
+}
+input:focus, select:focus, textarea:focus{
+    outline: none;
+    box-shadow: 2px 2px 4px goldenrod !important;
+}
+
+input{
+    border: 1px solid black !important;
+}
+.login form {
+    width:50%;
+}
+select, textarea{
+    border: 1px solid black !important;
+}
+select option:hover{
+    background-color: goldenrod !important;
 }

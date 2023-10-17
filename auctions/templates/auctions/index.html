@@ -21,7 +21,11 @@
         {% for listing in listings %}
                 <div class="listing col">
                 <a href="{% url 'listing_page' listing.id %}"><h4>Title: {{listing.title}}</h4></a>
+                {% if listing.image %}
                 <img src= {{listing.image}} alt="image" class="listing_img">
+                {% else %}
+                <img src="https://cdn.vectorstock.com/i/preview-1x/50/20/no-photography-sign-image-vector-23665020.jpg" alt="image" class="listing_img">
+                {% endif %}
                 <p>Description: {{listing.description}}</p>
                 <h4>Starting Price: {{listing.starting_bid}}$ </h4>
                 </div>

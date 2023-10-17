@@ -4,73 +4,48 @@
 <html lang="en">
     <head>
         <title>{% block title %}Auctions{% endblock %}</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     </head>
     <body>
-        
-        
-        <nav class="navbar navbar-expand-sm">
-            <div class="container-fluid">
-                <h1 class="logo navbar-brand">Balo<span>Bay</span></h1>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
-                    <span class="navbar-toggler-icon"></span>
-                  </button>
-                  <div class="collapse navbar-collapse" id="collapsibleNavbar">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link {% if active_page == 'index' %}active {% endif %}"  href="{% url 'index' %}">Active Listings</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% if active_page == 'closed' %}active {% endif %}" href="{% url 'closed' %}">Closed Listings</a>
-                        </li>
-                        {% if user.is_authenticated %}
-                            <li class="nav-item">
-                                <a href="{% url 'listing' %}" class="nav-link {% if active_page == 'listingform' %}active {% endif %}">Create Listing</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{% url 'to_watch' user.id %}" class="nav-link {% if active_page == 'watchlist' %}active {% endif %}">Watch List</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
-                            </li>
-                        {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link {% if active_page == 'login' %}active {% endif %}" href="{% url 'login' %}">Log In</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {% if active_page == 'register' %}active {% endif %}" href="{% url 'register' %}">Register</a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                  </div>
-            </div>
-            <div class="is_logedin">
-                {% if user.is_authenticated %}
-                    Signed in as <strong>{{ user.username }}</strong>.
-                {% else %}
-                    Not signed in.
-                {% endif %}
-            </div>
-        </nav>
+        <h1 class="logo">Balo<span>Bay</span></h1>
+        <div class="is_logedin">
+            {% if user.is_authenticated %}
+                Signed in as <strong>{{ user.username }}</strong>.
+            {% else %}
+                Not signed in.
+            {% endif %}
+        </div>
+        <ul class="nav nav-pills">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'index' %}">Active Listings</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'closed' %}">Closed Listings</a>
+            </li>
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a href="{% url 'listing' %}" class="nav-link">Create Listing</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'to_watch' user.id %}" class="nav-link">Watch List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}">Register</a>
+                </li>
+            {% endif %}
+        </ul>
         <hr>
         {% block body %}
         {% endblock %}
-        <script>
-            const nav_links = document.querySelectorAll('.nav-link');
-            function is_clicked(){
-                // get active elements
-                const activeElements = document.querySelectorAll('.active')
-                // remove active class from all active elements
-                for (let i = 0; i < activeElements.length; i++){
-                    activeElements[i].classList.remove('active');
-                }
-                this.classList.add('active');
-            }
-            for (let i = 0; i < nav_links.length; i++) {
-                nav_links[i].addEventListener('click', is_clicked);
-            }
-        </script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
     </body>
 </html>

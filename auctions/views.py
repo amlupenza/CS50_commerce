@@ -7,7 +7,6 @@ from .forms import *
 from datetime import datetime
 from .models import *
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 
 
 
@@ -18,15 +17,13 @@ def index(request):
         listings = Listing.objects.filter(category=category, is_active=True)
         return render(request, "auctions/index.html", {
             "listings": listings,
-            "categories": Category.objects.all(),
-            "active_page": "index"
+            "categories": Category.objects.all()
         })
     listings = Listing.objects.filter(is_active=True)
     categories = Category.objects.all()
     return render(request, "auctions/index.html", {
         "listings": listings,
-        "categories": categories,
-        "active_page": "index"
+        "categories": categories
     })
 
 
@@ -44,20 +41,16 @@ def login_view(request):
             return HttpResponseRedirect(reverse("index"))
         else:
             return render(request, "auctions/login.html", {
-                "message": "Invalid username and/or password.",
-                "active_page": "index"
+                "message": "Invalid username and/or password."
             })
     else:
-        if "next" in request.GET:
-            messages.info(request, "You need to login first")
-        return render(request, "auctions/login.html", {
-            "active_page": "login"
-        })
+        return render(request, "auctions/login.html")
 
 
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
+
 
 def register(request):
     if request.method == "POST":
@@ -69,8 +62,7 @@ def register(request):
         confirmation = request.POST["confirmation"]
         if password != confirmation:
             return render(request, "auctions/register.html", {
-                "message": "Passwords must match.",
-                "active_page": "register"
+                "message": "Passwords must match."
             })
 
         # Attempt to create new user
@@ -79,17 +71,14 @@ def register(request):
             user.save()
         except IntegrityError:
             return render(request, "auctions/register.html", {
-                "message": "Username already taken.",
-                "active_page": "register"
+                "message": "Username already taken."
             })
         login(request, user)
-        messages.success(request, "Congratulations, you are registered")
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/register.html")
     
 # listing view
-@login_required
 def listing(request):
     # check method is post
     if request.method == "POST":
@@ -104,22 +93,19 @@ def listing(request):
             listing.date = today
             listing.is_active = True
             listing.save()
-            print(f"This is image url: {listing.image}")
             messages.success(request, "Your listing has been added successfully")
             return HttpResponseRedirect(reverse("index"))
         else:
             messages.error(request, "Sorry, your Form is not valid, check it and submit again")
             return render(request, "auctions/listingForm.html", {
-                "form": f,
-                "active_page": "listingform"
+                "form": f
             })
 
     # if method is get
     return render(request, 'auctions/listingForm.html', {
-        "form": ListingForm,
-        "active_page": "listingform"
+        "form": ListingForm
     })
-@login_required
+
 def listing_page(request,listing_id):
     user = request.user
     listing = Listing.objects.get(pk=listing_id)
@@ -138,40 +124,31 @@ def listing_page(request,listing_id):
         "currentbid": max_bid
     })
 
-@login_required
 def closed_listing(request):
     closed_listings = Listing.objects.filter(is_active=False)
     return render(request, "auctions/closed.html", {
-        "listings": closed_listings,
-        "active_page": "closed_listing",
-        "active_page": "closed"
+        "listings": closed_listings
     })
 # function to add listing to watch list
-@login_required
 def to_watch(request, id):
     user = request.user
     if request.method == "POST":
         listing = Listing.objects.get(pk=id)
         user.watchlistings.add(listing)
     return render(request, "auctions/watchlist.html", {
-        "listings": Listing.objects.filter(watchlist=user),
-        "active_page": "watchlist"
-      
+        "listings": Listing.objects.filter(watchlist=user)
     })
 # from listing from a watch list
-@login_required
 def from_watch(request, id):
     user = request.user
     if request.method == "POST":
         listing = Listing.objects.get(pk=id)
         user.watchlistings.remove(listing)
     return render(request, "auctions/watchlist.html", {
-        "listings": Listing.objects.filter(watchlist=user),
-        "active_page": "watchlist"
+        "listings": Listing.objects.filter(watchlist=user)
     })
 
 # biding functing
-@login_required
 def make_bid(request, listing_id):
     if request.method == "POST":
         # get form values
@@ -228,7 +205,6 @@ def make_bid(request, listing_id):
         
 
 # close bid
-@login_required
 def close_bid(request, listing_id):
     if request.method == "POST":
         # get listing
@@ -254,7 +230,6 @@ def close_bid(request, listing_id):
     return HttpResponseRedirect(reverse("index"))
 
 # comment function
-@login_required
 def comment(request, listing_id):
     if request.method == 'POST':
         f = CommentForm(request.POST)

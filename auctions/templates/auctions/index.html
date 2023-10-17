@@ -10,7 +10,7 @@
                     <option value="{{category.id}}">{{category}}</option>
                     {% endfor %}
                 </select>
-                <button type="submit" class="btn">Select</button>
+                <button class="btn" type="submit">Select</button>
             </form>
         </div>
         <h2>Active Listings</h2>
@@ -19,16 +19,19 @@
         {% endif %}
         <div class="row">
         {% for listing in listings %}
-                <div class="listing col">
-                <a href="{% url 'listing_page' listing.id %}"><h4>Title: {{listing.title}}</h4></a>
-                {% if listing.image %}
+        <div class="card col-sm-3" style="width:400px">
+            {% if listing.image %}
                 <img src= {{listing.image}} alt="image" class="listing_img">
                 {% else %}
                 <img src="https://cdn.vectorstock.com/i/preview-1x/50/20/no-photography-sign-image-vector-23665020.jpg" alt="image" class="listing_img">
-                {% endif %}
-                <p>Description: {{listing.description}}</p>
-                <h4>Starting Price: {{listing.starting_bid}}$ </h4>
-                </div>
+            {% endif %}
+            <div class="card-body">
+              <h4 class="card-title">{{listing.title}}</h4>
+            <h4>Starting Price: {{listing.starting_bid}}$ </h4>
+            <p>Description: {{listing.description}}</p>
+              <a href="{% url 'listing_page' listing.id %}"><h4>More details</h4></a>
+            </div>
+          </div>
         {% endfor %}
         </div>
     </div>

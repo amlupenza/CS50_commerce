@@ -2,10 +2,7 @@
 {% block body %}
     <div class="container lisitng_page">
     {% if user.is_authenticated %}
-  
-    {% if request.user == listing.buyer and listing.is_active == False %}
-    You won the bid, congratulations!
-    {% endif %}
+    
         <h4> {{message}}  </h4>
         {% if request.user == listing.seller and listing.is_active == True %}
         <form action="{% url 'close' listing.id %}" method="post">
@@ -16,12 +13,12 @@
         {% if listing not in watchlists and listing.is_active == True %}
         <form action="{% url 'to_watch' listing.id %}" method="post">
             {% csrf_token %}
-            <button type="submit" class="btn">Add</button>
+            <button type="submit" class="btn">Watch</button>
         </form>
         {% elif listing in watchlists %}
         <form action="{% url 'from_watch' listing.id %}" method="post">
             {% csrf_token %}
-            <button type="submit" class="btn">Remove</button>
+            <button type="submit" class="btn">Unwatch</button>
         </form>
         {% endif %}
         <div class="row">
@@ -49,7 +46,18 @@
                 {% else %}
                     <span>Sold</span>
                 {% endif %}
-
+                {% if request.user == listing.buyer and listing.is_active == False %}
+                You won the bid, congratulations!
+                {% endif %}
+                {% if request.user != listing.seller and listing.is_active == True %}
+                <div class="bid">
+                    <form action="{% url 'make_bid' listing.id %}" method="post">
+                        {% csrf_token %}
+                        {{bid}}
+                        <button type="submit" class="btn">Make bid</button>
+                    </form>
+                </div>
+                {% endif %}
             </div>
             <div class="container">
                 <h4>Comments:</h4>
@@ -74,15 +82,7 @@
                         <button type="submit" class="btn">Send</button>
                     </form>
                 </div>
-                {% if request.user != listing.seller and listing.is_active == True %}
-                <div class="bid">
-                    <form action="{% url 'make_bid' listing.id %}" method="post">
-                        {% csrf_token %}
-                        {{bid.as_p}}
-                        <button type="submit" class="btn btn-primary">Make bid</button>
-                    </form>
-                </div>
-                {% endif %}
+                
                 {% endif %}
             </div>
         </div> 

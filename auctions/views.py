@@ -7,6 +7,7 @@ from .forms import *
 from datetime import datetime
 from .models import *
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -79,6 +80,7 @@ def register(request):
         return render(request, "auctions/register.html")
     
 # listing view
+@login_required
 def listing(request):
     # check method is post
     if request.method == "POST":
@@ -106,7 +108,7 @@ def listing(request):
     return render(request, 'auctions/listingForm.html', {
         "form": ListingForm
     })
-
+@login_required
 def listing_page(request,listing_id):
     user = request.user
     listing = Listing.objects.get(pk=listing_id)
@@ -126,6 +128,7 @@ def closed_listing(request):
         "listings": closed_listings
     })
 # function to add listing to watch list
+@login_required
 def to_watch(request, id):
     user = request.user
     if request.method == "POST":
@@ -135,6 +138,7 @@ def to_watch(request, id):
         "listings": Listing.objects.filter(watchlist=user)
     })
 # from listing from a watch list
+@login_required
 def from_watch(request, id):
     user = request.user
     if request.method == "POST":
@@ -145,12 +149,14 @@ def from_watch(request, id):
     })
 
 # biding functing
+@login_required
 def make_bid(request, listing_id):
     if request.method == "POST":
         # get form values
         f = BidForm(request.POST)
         # check if form is valid
         if not f.is_valid():
+            messages.error(request, "Sorry, your form is not valid")
             return render(request, "auctions/listing.html", {
                 "bid": f,
                 "message": "Sorry, your form is not valid"
@@ -169,6 +175,7 @@ def make_bid(request, listing_id):
         if not bids:
             # check if bid_price is < than listing starting price
             if bid_price < start_price:
+                
                 return render(request, "auctions/listing.html", {
                     "bid": f, 
                     "message": "Bid must be larger than starting price",
@@ -220,6 +227,7 @@ def make_bid(request, listing_id):
         
 
 # close bid
+@login_required
 def close_bid(request, listing_id):
     if request.method == "POST":
         # get listing
@@ -240,10 +248,12 @@ def close_bid(request, listing_id):
         listing.buyer = buyer
         listing.buy_price = max_bid
         listing.save()
+        messages.success(request, "Your listing has been closed")
         return HttpResponseRedirect(reverse("closed"))   
     return HttpResponseRedirect(reverse("index"))
 
 # comment function
+@login_required
 def comment(request, listing_id):
     if request.method == 'POST':
         f = CommentForm(request.POST)

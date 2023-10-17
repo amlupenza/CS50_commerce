@@ -1,21 +1,12 @@
 {% extends 'auctions/layout.html' %}
 {% block body %}
-{% if user.is_authenticated %}
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endif %}
-    <div class="container listingForm">
-    
-        <form action="{% url 'listing' %}" method="post">
-            {% csrf_token %}
-            <h1>Create Listing</h1>
-            {{form.as_p}}
-            <button class="btn">Save</button>
-        </form>
-    </div>
-{% endif %}
+<div class="container listingForm">
+  
+    <form action="{% url 'listing' %}" method="post">
+        {% csrf_token %}
+        <h1>Create Listing</h1>
+        {{form.as_p}}
+        <button class="btn">Save</button>
+    </form>
+</div>
 {% endblock %}

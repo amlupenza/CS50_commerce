@@ -2,19 +2,33 @@
 
 {% block body %}
     <div class="container">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
         <h2>Closed Listings</h2>
         {% if not listings %}
             No closed Listing
         {% endif %}
         <div class="row">
-        {% for listing in listings %}
-                <div class="listing col">
-                <a href="{% url 'listing_page' listing.id %}"><h4>Title: {{listing.title}}</h4></a>
-                <img src= {{listing.image}} alt="image" class="listing_img">
-                <p>Description: {{listing.description}}</p>
+            {% for listing in listings %}
+            <div class="card col-sm-3" style="width:400px">
+                {% if listing.image %}
+                    <img src= {{listing.image}} alt="image" class="card-img-top">
+                    {% else %}
+                    <img src="https://cdn.vectorstock.com/i/preview-1x/50/20/no-photography-sign-image-vector-23665020.jpg" alt="image" class="card-img-top">
+                {% endif %}
+                <div class="card-body">
+                  <h4 class="card-title">{{listing.title}}</h4>
                 <h4>Starting Price: {{listing.starting_bid}}$ </h4>
+                <p>Description: {{listing.description}}</p>
                 </div>
-        {% endfor %}
-        </div>
+                <a href="{% url 'listing_page' listing.id %}"><h4>More details</h4></a>
+              </div>
+            {% endfor %}
+            </div>
     </div>
 {% endblock %}

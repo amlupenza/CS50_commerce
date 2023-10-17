@@ -13,10 +13,10 @@ class ListingForm(forms.ModelForm):
                   )
         
         widgets = {
-            'title': forms.TextInput(attrs={'class': "form-control"}),
+            'title': forms.TextInput(attrs={'class': "form-control", "placeholder": "listing title"}),
             'category': forms.Select(attrs={'class': "form-control"}),
-            'image': forms.TextInput(attrs={'class': "form-control"}),
-            'starting_bid': forms.NumberInput(attrs={"class": "form-control", "min":1}),
+            'image': forms.TextInput(attrs={'class': "form-control", "placeholder":"image url"}),
+            'starting_bid': forms.NumberInput(attrs={"class": "form-control", "min":1, "placeholder":"In USD"}),
             'description': forms.Textarea(attrs={'class': "form-control"})
         }
 

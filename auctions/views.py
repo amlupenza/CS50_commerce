@@ -7,6 +7,7 @@ from .forms import *
 from datetime import datetime
 from .models import *
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -74,11 +75,13 @@ def register(request):
                 "message": "Username already taken."
             })
         login(request, user)
+        messages.success(request, "You are registered")
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/register.html")
     
 # listing view
+@login_required
 def listing(request):
     # check method is post
     if request.method == "POST":
@@ -93,20 +96,20 @@ def listing(request):
             listing.date = today
             listing.is_active = True
             listing.save()
+            messages.success(request, "your listing has been added succefully")
+            return HttpResponseRedirect(reverse("index"))
         else:
+            messages.error(request, "Sorry, your form is not valid, check it and submit again")
             return render(request, "auctions/listingForm.html", {
                 "form": f,
                 "message": "Sorry, your Form is not valid, check it and submit again"
             })
-        # instantiate listing with default values
-        listing = Listing(seller=user, date=today, is_active=True)
-        # add fields to the listing
-       
-        # save to the model
+
     return render(request, 'auctions/listingForm.html', {
         "form": ListingForm
     })
 
+@login_required
 def listing_page(request,listing_id):
     user = request.user
     listing = Listing.objects.get(pk=listing_id)
@@ -126,34 +129,40 @@ def closed_listing(request):
         "listings": closed_listings
     })
 # function to add listing to watch list
+@login_required
 def to_watch(request, id):
     user = request.user
     if request.method == "POST":
         listing = Listing.objects.get(pk=id)
         user.watchlistings.add(listing)
+        messages.success(request, "A listing was added to watchlist")
     return render(request, "auctions/watchlist.html", {
         "listings": Listing.objects.filter(watchlist=user)
     })
 # from listing from a watch list
+@login_required
 def from_watch(request, id):
     user = request.user
     if request.method == "POST":
         listing = Listing.objects.get(pk=id)
         user.watchlistings.remove(listing)
+        messages.success(request, "A listing was removed from watchlist")
     return render(request, "auctions/watchlist.html", {
         "listings": Listing.objects.filter(watchlist=user)
     })
 
 # biding functing
+@login_required
 def make_bid(request, listing_id):
     if request.method == "POST":
         # get form values
         f = BidForm(request.POST)
         # check if form is valid
         if not f.is_valid():
+            messages.error(request, "Sorry, your form is not valid")
             return render(request, "auctions/listing.html", {
-                "bid": f,
-                "message": "Sorry, your form is not valid"
+                "bid": f
+
             })
         # get user's input
         bid_price = float(f.cleaned_data["bid"])
@@ -169,9 +178,9 @@ def make_bid(request, listing_id):
         if not bids:
             # check if bid_price is < than listing starting price
             if bid_price < start_price:
+                messages.error(request, "Bid must be larger than starting price")
                 return render(request, "auctions/listing.html", {
                     "bid": f, 
-                    "message": "Bid must be larger than starting price",
                     "listing":listing
                 })
             # otherwise if bid_price is > start_price
@@ -220,6 +229,7 @@ def make_bid(request, listing_id):
         
 
 # close bid
+@login_required
 def close_bid(request, listing_id):
     if request.method == "POST":
         # get listing
@@ -240,10 +250,12 @@ def close_bid(request, listing_id):
         listing.buyer = buyer
         listing.buy_price = max_bid
         listing.save()
+        messages.success(request, "Your listing has been closed")
         return HttpResponseRedirect(reverse("closed"))   
     return HttpResponseRedirect(reverse("index"))
 
 # comment function
+@login_required
 def comment(request, listing_id):
     if request.method == 'POST':
         f = CommentForm(request.POST)

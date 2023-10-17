@@ -1,11 +1,7 @@
 body {
     padding: 10px;
 }
-.logo{
-    display: inline-block;
-    position: relative;
-    
-}
+
 strong{
     color: goldenrod;
 }
@@ -14,70 +10,54 @@ strong{
     transform: rotate(-20deg);
     
 }
-.is_logedin{
-    display: inline-block;
-    position: absolute;
-    left: 1200px;
-    top: 75px;
+.navbar-brand{
+    margin-right: 4px;
 }
-.nav-pills{
+.nav-item{
     transition: 0.5s;
 }
-.nav-pills a{
-    transition: 0.5s;
-    color: rgb(99, 74, 10);
+.nav-link{
+    font-size: 20px !important;
+    margin: 8px;
+    font-weight:500px;
 }
-.nav-item a:hover{
-    color: black;
-}
+
 .nav-item:hover{
     background-color: goldenrod;
     border-radius: 4px;
+    color:black;
     
 }
 
-/*................... Listing form styling.............*/
+/*................... creating Listing form styling.............*/
 .listingForm form{
     width: 80%;
     padding: 30px;
     margin: auto;
-    background-color: rgb(70, 235, 149);
+    background-color: white;
+    box-shadow: 2px 2px 8px black;
 
 }
-.btn{
-    background-color: black;
-    color:goldenrod ;
+.listingForm input:focus, .listingForm textarea:focus, selelct:focus{
+    outline-style: none;
+    box-shadow: 2px 2px 10px goldenrod;
 }
-.commentform, .bid{
+
+.commentform{
     display: inline-block;
 }
-.btn:hover{
-    color:white;
-}
-/*................ listing page styling...............*/
-.listing_img{
-    width: 300px;
-    height:300px;
-}
+
+/*................ listing styling...............*/
+
 .listing_descrip{
-    border: solid black 1px;
-    margin-left: 2px;
-}
-.listing_descrip span{
-    background-color: goldenrod;
-    color: black;
-    padding: 4px;
-}
-.lisitng_page form{
-    margin: 8px;
-    display: inline-block;
-
+    border: solid 1px black;
+    box-shadow: 2px 4px 10px black;
 }
 /*............ styling comments.........*/
 .comments{
     margin: 10px;
     width: 70%;
-    height: 30%;
+    height: 50%;
     overflow:auto;
     scroll-behavior: smooth;
     padding: 10px;
@@ -92,11 +72,11 @@ strong{
     border-radius: 4px;
     padding: 4px;
     margin: 4px auto;
-    width: 80%;
+    width: 70%;
 }
 .comment span{
     position: relative;
-    left: 430px;
+    left: 80%;
 }
 .comment h6{
     color: goldenrod;
@@ -113,9 +93,7 @@ strong{
     border-bottom: solid 1px;
     padding-bottom: 80px;
 }
-.commentform button{
-    margin: 10px;
-}
+
 .commentform{
     position: relative;
     width: 40%;
@@ -129,7 +107,12 @@ strong{
 .bid input{
     border: solid black 1px;
 }
-
+#won{
+    background-color: rgb(22, 230, 22);
+    padding: 8px;
+    margin: 8px;
+    color: red;
+}
 /*...............Index page styling..............*/
 .index_active form{
     width: 30%;
@@ -137,18 +120,72 @@ strong{
 .index_active select{
     display: inline-block;
     margin: 5px;
-    outline-color: goldenrod;
-    
 }
 
-.index_active option{
-    
-    display: inline-block;
-}
-.index_active button{
-    display: inline-block;
-}
+
+
+
+
 /*............. style input form-control...........*/
 .form-control:focus{
-    outline: goldenrod;
+
+    outline-style: none !important;
+    box-shadow: 2px 2px 4px goldenrod;
 }
+/*......... style listing layout .........*/
+.card{
+    margin: 10px;
+    box-shadow: 2px 2px 4px black;
+}
+
+.card-body{
+    position: relative;
+    height: 40%;
+}
+.card a{
+    background-color: goldenrod !important;
+    color: black;
+    text-align: center;
+    padding: 4px;
+    text-decoration: none;
+}
+
+
+.listing_img {
+    width: 400px;
+    height:400px
+}
+.btn{
+    margin: 10px !important;
+    background-color: black !important;
+    color: white !important;
+    transition: 0.5s;
+}
+.btn:hover{
+    background-color: goldenrod !important;
+    color: white !important;
+}
+.bid{ 
+    width: 40%;
+    margin-top: 10px;
+}
+/*.................style inpute.............*/
+.form-group input{
+    width:40%;
+    margin: 10px;
+
+}
+.form-group input:focus{
+    box-shadow: 2px 2px 4px goldenrod;
+    outline-style: none !important;
+}
+/*.............style sucess and error message*/
+.alert-success{
+    background-color: goldenrod;
+    color: black;
+}
+.alert-error{
+    background-color: red;
+    color: goldenrod;
+}
+

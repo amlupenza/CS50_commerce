@@ -2,11 +2,21 @@
 {% block body %}
     <div class="container lisitng_page">
     {% if user.is_authenticated %}
+<<<<<<< HEAD
   
     {% if request.user == listing.buyer and listing.is_active == False %}
     You won the bid, congratulations!
     {% endif %}
         <h4> {{message}}  </h4>
+=======
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% endif %}
+>>>>>>> style-nav
         {% if request.user == listing.seller and listing.is_active == True %}
         <form action="{% url 'close' listing.id %}" method="post">
             {% csrf_token %}
@@ -16,19 +26,33 @@
         {% if listing not in watchlists and listing.is_active == True %}
         <form action="{% url 'to_watch' listing.id %}" method="post">
             {% csrf_token %}
+<<<<<<< HEAD
             <button type="submit" class="btn">Add</button>
+=======
+            <button type="submit" class="btn">Watch</button>
+>>>>>>> style-nav
         </form>
-        {% elif listing in watchlists and listing.is_active == True %}
+        {% elif listing in watchlists %}
         <form action="{% url 'from_watch' listing.id %}" method="post">
             {% csrf_token %}
+<<<<<<< HEAD
             <button type="submit">Remove</button>
+=======
+            <button type="submit" class="btn">Unwatch</button>
+>>>>>>> style-nav
         </form>
         {% endif %}
         <div class="row">
             <div class="col" listing_info>
                 <h1>{{listing.title}}</h1>
                 <img src="{{listing.image}}" alt="image" class="listing_img">
+<<<<<<< HEAD
                
+=======
+                {% else %}
+                <img src="https://cdn.vectorstock.com/i/preview-1x/50/20/no-photography-sign-image-vector-23665020.jpg" alt="image" class="listing_img">
+                {% endif %}
+>>>>>>> style-nav
             </div>
             <div class="col listing_descrip">
                 <h4>Description:</h4>
@@ -44,22 +68,33 @@
                     {% endif %}
                     <span>Active</span>
                 {% else %}
-                    <span>Sold</span>
+                    <span>Closed</span>
                 {% endif %}
-
+                {% if request.user == listing.buyer and listing.is_active == False %}
+                <h6 id="won">You won the bid, congratulations!</h6>
+                {% endif %}
+                {% if request.user != listing.seller and listing.is_active == True %}
+                <div class="bid">
+                    <form action="{% url 'make_bid' listing.id %}" method="post">
+                        {% csrf_token %}
+                        {{bid}}
+                        <button type="submit" class="btn">Make bid</button>
+                    </form>
+                </div>
+                {% endif %}
             </div>
             <div class="container">
                 <h4>Comments:</h4>
                 <div class="comments">
                    
                     {% if comments %}
-                    {% for comment in comments %}
-                    <div class="comment">
-                        <h6>{{comment.sender}}</h6>
-                        <p>{{comment.comment|linebreaksbr}}</p>
-                        <span>{{comment.date}}</span>
-                    </div>
-                    {% endfor %}
+                        {% for comment in comments %}
+                        <div class="comment">
+                            <h6>{{comment.sender}}</h6>
+                            <p>{{comment.comment|linebreaksbr}}</p>
+                            <span>{{comment.date}}</span>
+                        </div>
+                        {% endfor %}
                     {% else %}
                     No Comments
                     {% endif %}
@@ -71,17 +106,8 @@
                         <button type="submit" class="btn">Send</button>
                     </form>
                 </div>
-                {% if request.user != listing.seller and listing.is_active == True %}
-                <div class="bid">
-                    <form action="{% url 'make_bid' listing.id %}" method="post">
-                        {% csrf_token %}
-                        {{bid.as_p}}
-                        <button type="submit" class="btn btn-primary">Make bid</button>
-                    </form>
-                </div>
-                {% endif %}
-                {% endif %}
             </div>
-        </div> 
+        </div>
+    {% endif %}
     </div>
 {% endblock %}

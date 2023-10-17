@@ -19,6 +19,7 @@ strong{
 .nav-link{
     font-size: 20px !important;
     margin: 8px;
+    font-weight:500px;
 }
 
 .nav-item:hover{
@@ -106,7 +107,12 @@ strong{
 .bid input{
     border: solid black 1px;
 }
-
+#won{
+    background-color: rgb(22, 230, 22);
+    padding: 8px;
+    margin: 8px;
+    color: red;
+}
 /*...............Index page styling..............*/
 .index_active form{
     width: 30%;
@@ -130,23 +136,23 @@ strong{
     margin: 10px;
     box-shadow: 2px 2px 4px black;
 }
-.card img{
-    margin: 4px auto;
-}
-.card-body a{
-    text-decoration: none;
+
+.card-body{
     position: relative;
-    bottom: 4px;
+    height: 40%;
 }
-.card a h4{
+.card a{
     background-color: goldenrod !important;
     color: black;
     text-align: center;
     padding: 4px;
+    text-decoration: none;
 }
+
+
 .listing_img {
-    width: 200px;
-    height:200px
+    width: 400px;
+    height:400px
 }
 .btn{
     margin: 10px !important;
@@ -171,4 +177,13 @@ strong{
 .form-group input:focus{
     box-shadow: 2px 2px 4px goldenrod;
     outline-style: none !important;
+}
+/*.............style sucess and error message*/
+.alert-success{
+    background-color: goldenrod;
+    color: black;
+}
+.alert-error{
+    background-color: red;
+    color: goldenrod;
 }

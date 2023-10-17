@@ -2,8 +2,13 @@
 {% block body %}
     <div class="container lisitng_page">
     {% if user.is_authenticated %}
-    
-        <h4> {{message}}  </h4>
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% endif %}
         {% if request.user == listing.seller and listing.is_active == True %}
         <form action="{% url 'close' listing.id %}" method="post">
             {% csrf_token %}
@@ -44,10 +49,10 @@
                     {% endif %}
                     <span>Active</span>
                 {% else %}
-                    <span>Sold</span>
+                    <span>Closed</span>
                 {% endif %}
                 {% if request.user == listing.buyer and listing.is_active == False %}
-                You won the bid, congratulations!
+                <h6 id="won">You won the bid, congratulations!</h6>
                 {% endif %}
                 {% if request.user != listing.seller and listing.is_active == True %}
                 <div class="bid">
@@ -64,13 +69,13 @@
                 <div class="comments">
                    
                     {% if comments %}
-                    {% for comment in comments %}
-                    <div class="comment">
-                        <h6>{{comment.sender}}</h6>
-                        <p>{{comment.comment|linebreaksbr}}</p>
-                        <span>{{comment.date}}</span>
-                    </div>
-                    {% endfor %}
+                        {% for comment in comments %}
+                        <div class="comment">
+                            <h6>{{comment.sender}}</h6>
+                            <p>{{comment.comment|linebreaksbr}}</p>
+                            <span>{{comment.date}}</span>
+                        </div>
+                        {% endfor %}
                     {% else %}
                     No Comments
                     {% endif %}
@@ -82,9 +87,8 @@
                         <button type="submit" class="btn">Send</button>
                     </form>
                 </div>
-                
-                {% endif %}
             </div>
-        </div> 
+        </div>
+    {% endif %}
     </div>
 {% endblock %}

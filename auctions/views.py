@@ -93,10 +93,11 @@ def listing(request):
             listing.date = today
             listing.is_active = True
             listing.save()
+            messages.success(request, "Your listing has been added successfully")
+            return HttpResponseRedirect(reverse("index"))
         else:
             return render(request, "auctions/listingForm.html", {
-                "form": f,
-                "message": "Sorry, your Form is not valid, check it and submit again"
+                "form": f
             })
         # instantiate listing with default values
         listing = Listing(seller=user, date=today, is_active=True)

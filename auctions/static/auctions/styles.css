@@ -116,10 +116,16 @@ strong{
 /*...............Index page styling..............*/
 .index_active form{
     width: 30%;
+    display: inline-block;
 }
 .index_active select{
     display: inline-block;
     margin: 5px;
+}
+.form-select:focus{
+    outline-style: none !important;
+    box-shadow: 2px 2px 8px goldenrod;
+
 }
 
 
@@ -148,6 +154,11 @@ strong{
     text-align: center;
     padding: 4px;
     text-decoration: none;
+}
+.card img{
+    height: 200px;
+    width:200px;
+    margin: auto;
 }
 
 
@@ -181,11 +192,11 @@ strong{
 }
 /*.............style sucess and error message*/
 .alert-success{
-    background-color: goldenrod;
-    color: black;
+    background-color: goldenrod !important;
+    color: black !important;
 }
 .alert-error{
-    background-color: red;
-    color: goldenrod;
+    background-color: red !important;
+    color: goldenrod !important;
 }
 

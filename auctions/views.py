@@ -114,13 +114,19 @@ def listing_page(request,listing_id):
     user = request.user
     listing = Listing.objects.get(pk=listing_id)
     bids = Bid.objects.filter(listing=listing_id)
+    #find max_bid for this listing
+    max_bid = 0
+    for bid in bids:
+        if bid.bid > max_bid:
+            max_bid = bid.bid
     watchlists = user.watchlistings.all()
     return render(request, "auctions/listing.html", {
         "listing": listing, 
         "watchlists": watchlists,
         "bid": BidForm,
         "comments": Comment.objects.filter(listing=listing),
-        "commentform": CommentForm
+        "commentform": CommentForm,
+        "currentbid":max_bid
     })
 
 def closed_listing(request):
@@ -157,11 +163,14 @@ def make_bid(request, listing_id):
     if request.method == "POST":
         # get form values
         f = BidForm(request.POST)
+        listing = Listing.objects.get(pk=listing_id)
         # check if form is valid
         if not f.is_valid():
             messages.error(request, "Sorry, your form is not valid")
             return render(request, "auctions/listing.html", {
-                "bid": f
+                "bid": f,
+                "comments": Comment.objects.filter(listing=listing),
+                "commentform":CommentForm
 
             })
         # get user's input
@@ -181,7 +190,9 @@ def make_bid(request, listing_id):
                 messages.error(request, "Bid must be larger than starting price")
                 return render(request, "auctions/listing.html", {
                     "bid": f, 
-                    "listing":listing
+                    "listing":listing,
+                    "comments": Comment.objects.filter(listing=listing),
+                    "commentform": CommentForm
                 })
             # otherwise if bid_price is > start_price
             else:
@@ -189,11 +200,14 @@ def make_bid(request, listing_id):
                 bid = Bid(bider=user, listing=listing, bid=bid_price)
                 # save bid to the database
                 bid.save()
+                messages.success(request, "Your bid has been placed successful")
                 return render(request, "auctions/listing.html", {
                     "bid":f,
                     "listing": listing,
-                    "message": "Your bid has been placed successfully",
-                    "currentbid": bid_price
+                    "currentbid": bid_price,
+                    "comments": Comment.objects.filter(listing=listing),
+                    "commentform": CommentForm
+
                 })
         # check if there is a bid for this listing
         else:
@@ -210,22 +224,20 @@ def make_bid(request, listing_id):
 
             # check if maximum bid is greater than user's bid       
             if max_bid > bid_price: 
+                    messages.error(request, "Sorry, your bid must be greater than current bid")
                     return render(request, "auctions/listing.html", {
                         "bid":f, 
-                        "message": "Sorry, your bid must be greater than current bid",
                         "listing":listing,
-                        "currentbid": max_bid
+                        "currentbid": max_bid,
+                        "comments": Comment.objects.filter(listing=listing),
+                        "commentform": CommentForm
                     })
             # set default values for current bid object
             bid = Bid(bider=user, listing=listing, bid=bid_price)
             bid.save()
-            return render(request, "auctions/listing.html", {
-                "bid":f,
-                "listing": listing,
-                "message": "Your bid has been placed successfully",
-                "currentbid": max_bid
-                
-            })
+            messages.success(request, "Your bid has been placed")
+            return HttpResponseRedirect(reverse("listing_page", args=(listing_id, )))
+             
         
 
 # close bid

@@ -40,11 +40,11 @@
                 <h4>Description:</h4>
                 <p>{{listing.description}}</p>
                 <h4>Seller: {{listing.seller}}</h4>
-                <h5>Starting price: {{listing.starting_bid}}</h5>
+                <h5>Starting price: {{listing.starting_bid}}$</h5>
                 <h5>Posted in: {{listing.date}}</h5>
                 {%if listing.is_active == True %}
                     {% if currentbid %}
-                        <h5>Current bid: {{currentbid}}</h5>
+                        <h5>Current bid: {{currentbid}}$</h5>
                     {% else %}
                         <h5>No bid placed</h5>
                     {% endif %}
